@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: prompty-dev-gateway-ip
+    networking.gke.io/managed-certificates: prompty-dev-gateway-cert
+    ingress.kubernetes.io/force-ssl-redirect: 'true'
+    kubernetes.io/ingress.allow-http: 'false'
+    networking.gke.io/v1beta1.FrontendConfig: prompty-dev-gateway-kong
+  name: prompty-dev-gateway-ingress
+spec:
+  rules:
+    - host: dev4api.promptlabai.com
+      http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: prompty-dev-gateway-kong-custom
+                port:
+                  number: 80

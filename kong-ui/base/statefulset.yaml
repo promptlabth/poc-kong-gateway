@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: konga
+    argocd.argoproj.io/instance: konga
+  name: konga
+  namespace: kong-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: konga
+  serviceName: konga
+  template:
+    metadata:
+      labels:
+        app: konga
+    spec:
+      containers:
+        - env:
+            - name: NODE_ENV
+              value: production
+          image: 'pantsel/konga:0.14.9'
+          name: konga
+          ports:
+            - containerPort: 1337
+              name: http
+          volumeMounts:
+            - mountPath: /app/kongadata
+              name: konga-data
+  volumeClaimTemplates:
+    - metadata:
+        name: konga-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5G

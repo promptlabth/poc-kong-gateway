@@ -1,0 +1,12 @@
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  labels:
+    argocd.argoproj.io/instance: prompty-dev-gateway
+  name: prompty-dev-gateway-kong
+  namespace: kong-gateway
+spec:
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+  sslPolicy: promptlab-policy

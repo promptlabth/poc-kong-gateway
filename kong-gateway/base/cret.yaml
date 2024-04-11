@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: prompty-dev-gateway-cert
+spec:
+  domains:
+    - dev4api.promptlabai.com

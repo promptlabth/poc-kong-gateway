@@ -1,0 +1,23 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  labels:
+    argocd.argoproj.io/instance: prompty-dev-gateway
+  name: prompty-dev-gateway
+  namespace: kong-gateway
+spec:
+  customResponseHeaders:
+    headers:
+      - 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload'
+      - 'Content-Security-Policy: default-src ''self'''
+      - 'X-Frame-Options: deny'
+  healthCheck:
+    checkIntervalSec: 60
+    healthyThreshold: 1
+    port: 8100
+    requestPath: /status
+    timeoutSec: 60
+    type: HTTP
+    unhealthyThreshold: 10
+  securityPolicy:
+    name: prompty-dev-gateway-armor
